@@ -1,0 +1,35 @@
+{
+    "image": {
+        "processor": {
+            "driver": "gd"
+        }
+    },
+    "input": {
+        "directory": ".",
+        "mask": "*.png"
+    },
+    "sprite": {
+        "filepath": ".",
+        "filename": "sprite.png",
+        "overwrite": true,
+        "background": null,
+        "spaces": 4,
+        "processor": "simplebinpacking"
+    },
+    "css": {
+        "filepath": ".",
+        "filename": "sprite.css",
+        "overwrite": true,
+        "selector": "sprite",
+        "prefix": "sprite",
+        "mainLine": ".{{selector}} {display:inline-block; background-image:url({{image}})}\n",
+        "spriteLine": ".{{selector}}.{{prefix}}-{{filename}} {background-position:{{x}}px {{y}}px; width:{{w}}px; height:{{h}}px; }\n"
+    },
+    "html": {
+        "filepath": ".",
+        "filename": "sprite.html",
+        "overwrite": true,
+        "tag": "span",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n\t<title>Sprite<\/title>\n\t<style type=\"text\/css\">* {vertical-align:top;}<\/style>\n\t<link rel=\"stylesheet\" type=\"text\/css\" href=\"{{stylesheet}}\">\n<\/head>\n<body>\n{{content}}\n<\/body>\n<\/html>\n"
+    }
+}

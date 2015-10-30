@@ -1,0 +1,34 @@
+{
+    "name": "benoth/cssprites",
+    "description": "Simple CSS Sprites generator",
+    "require": {
+        "php": ">=5.4",
+        "symfony/console": "~2.7",
+        "symfony/finder": "~2.7",
+        "league/container": "~1.3",
+        "imagine/imagine": "~0.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luc Vancrayelynghe",
+            "email": "luc.vancrayelynghe@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CSSPrites\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": ["tests/"]
+    },
+    "bin": ["bin/cssprites"],
+    "config": {
+        "preferred-install": "dist"
+    }
+}

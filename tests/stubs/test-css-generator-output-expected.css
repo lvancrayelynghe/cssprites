@@ -1,0 +1,1 @@
+.testSelector {display:inline-block; background-image:url(test-output.png)}.testSelector.testPrefix-test-input {background-position:1px 2px; width:3px; height:4px; }.testSelector.testPrefix-test-multi-input {background-position:-10px -20px; width:-30px; height:-40px; }

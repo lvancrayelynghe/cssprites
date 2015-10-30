@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+if (strpos(basename(__FILE__), 'phar')) {
+    require_once 'phar://cssprites.phar/../vendor/autoload.php';
+} else {
+    if (file_exists(__DIR__.'/../vendor/autoload.php')) {
+        require_once __DIR__.'/../vendor/autoload.php';
+    } elseif (file_exists(__DIR__.'/../../autoload.php')) {
+        require_once __DIR__ . '/../../autoload.php';
+    } else {
+        require_once 'phar://cssprites.phar/../vendor/autoload.php';
+    }
+}
+
+/*
+    @todo : Allow others ImageProcessor in the DIC
+    @todo : DocBlock all the things
+    @todo : Call pngcrush if available
+    @todo : Single command project
+*/
+
+// Registering Dependency Injection Container
+$container = new League\Container\Container;
+$container->addServiceProvider(new CSSPrites\ServiceProvider);
+
+// Registering Console Application
+$app = new Symfony\Component\Console\Application('CSSPrites', '1.0.0');
+$app->add($container->get('commands.generate'));
+
+// Load default configuration in user directory or in current directory (if file exists)
+if (file_exists(getenv('HOME').'/cssprites/cssprites.json') && is_file(getenv('HOME').'/cssprites/cssprites.json')) {
+    $container->get('configuration')->load(getenv('HOME').'/cssprites/cssprites.json');
+} elseif (file_exists(__DIR__.'/../config/cssprites.json') && is_file(__DIR__.'/../config/cssprites.json')) {
+    $container->get('configuration')->load(__DIR__.'/../config/cssprites.json');
+}
+
+$app->run();
