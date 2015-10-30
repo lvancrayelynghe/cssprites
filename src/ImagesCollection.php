@@ -32,7 +32,7 @@ class ImagesCollection
     public function sort($order)
     {
         if ($order == 'biggest') {
-            usort($this->images, function ($a, $b) {
+            usort($this->images, function (Image $a, Image $b) {
                 if ($a->getSurface() == $b->getSurface()) {
                     return 0;
                 }

@@ -3,6 +3,7 @@
 namespace CSSPrites;
 
 use League\Container\ServiceProvider as BaseServiceProvider;
+use CSSPrites\ImageProcessor\ImageProcessorInterface;
 
 /**
  * ServiceProvider to register all the needed dependencies.
@@ -35,7 +36,7 @@ class ServiceProvider extends BaseServiceProvider
         $container->add('image.processor', 'CSSPrites\ImageProcessor\ImagineImageProcessor');
 
         // AutoConfigure Image Processor
-        $container->inflector('CSSPrites\ImageProcessor\ImageProcessorInterface', function ($instance) use ($container) {
+        $container->inflector('CSSPrites\ImageProcessor\ImageProcessorInterface', function (ImageProcessorInterface $instance) use ($container) {
             $instance->setConfig($container->get('configuration')->get('image.processor'));
         });
 

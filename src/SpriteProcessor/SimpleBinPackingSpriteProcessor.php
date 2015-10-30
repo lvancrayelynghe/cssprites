@@ -101,7 +101,7 @@ class SimpleBinPackingSpriteProcessor extends AbstractSpriteProcessor
 
     public function find($node, $w, $h)
     {
-        if ($node->used == true) {
+        if ($node->used === true) {
             $right = $this->find($node->right, $w, $h);
             $down  = $this->find($node->down, $w, $h);
             if (!is_null($right)) {
@@ -146,7 +146,7 @@ class SimpleBinPackingSpriteProcessor extends AbstractSpriteProcessor
     public function checkAllFits()
     {
         foreach ($this->working as $working) {
-            if ($working->fit == false) {
+            if ($working->fit === false) {
                 return false;
             }
         }
