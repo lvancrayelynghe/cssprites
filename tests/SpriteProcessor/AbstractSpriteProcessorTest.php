@@ -5,7 +5,7 @@ use CSSPrites\ImageProcessor\ImagineImageProcessor;
 use CSSPrites\ImagesCollection;
 use CSSPrites\SpriteProcessor\HorizontalSpriteProcessor;
 
-class AbstractSpriteProcessorTest extends PHPUnit_Framework_TestCase
+class AbstractSpriteProcessorTest extends AbstractBaseTest
 {
     protected $processor;
     protected $directory;
@@ -92,7 +92,7 @@ class AbstractSpriteProcessorTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('CSSPrites\SpriteProcessor\HorizontalSpriteProcessor', $sprite);
         $this->assertInstanceOf('Imagine\Gd\Image', $saved);
 
-        $this->assertFileEquals($pathS, $pathL);
+        $this->assertImageEquals($pathS, $pathL);
         unlink($pathS);
     }
 }

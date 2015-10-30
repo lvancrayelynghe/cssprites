@@ -2,7 +2,7 @@
 
 use CSSPrites\ImageProcessor\ImagineImageProcessor;
 
-class AbstractImageProcessorTest extends PHPUnit_Framework_TestCase
+class AbstractImageProcessorTest extends AbstractBaseTest
 {
     public function testGetImage()
     {

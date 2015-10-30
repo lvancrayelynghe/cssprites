@@ -3,7 +3,7 @@
 use CSSPrites\ImageProcessor\ImagineImageProcessor;
 use CSSPrites\ImagesCollection;
 
-class ImageTest extends PHPUnit_Framework_TestCase
+class ImageTest extends AbstractBaseTest
 {
     protected $processor;
     protected $directory;

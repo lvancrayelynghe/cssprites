@@ -12,7 +12,7 @@ use CSSPrites\Configuration;
  *
  * @license MIT
  */
-class ConfigurationTest extends PHPUnit_Framework_TestCase
+class ConfigurationTest extends AbstractBaseTest
 {
     public function testSet()
     {

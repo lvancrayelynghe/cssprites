@@ -5,7 +5,7 @@ use CSSPrites\ImageProcessor\ImagineImageProcessor;
 use CSSPrites\ImagesCollection;
 use CSSPrites\SpriteProcessor\SimpleBinPackingSpriteProcessor;
 
-class SimpleBinPackingSpriteProcessorTest extends PHPUnit_Framework_TestCase
+class SimpleBinPackingSpriteProcessorTest extends AbstractBaseTest
 {
     protected $processor;
     protected $directory;
@@ -54,7 +54,7 @@ class SimpleBinPackingSpriteProcessorTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('CSSPrites\SpriteProcessor\SimpleBinPackingSpriteProcessor', $sprite);
         $this->assertInstanceOf('Imagine\Gd\Image', $saved);
 
-        $this->assertFileEquals($pathS, $pathL);
+        $this->assertImageEquals($pathS, $pathL);
         unlink($pathS);
     }
 }

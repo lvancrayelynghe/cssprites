@@ -2,7 +2,7 @@
 
 use CSSPrites\Generator\CSSGenerator;
 
-class CSSGeneratorTest extends PHPUnit_Framework_TestCase
+class CSSGeneratorTest extends AbstractBaseTest
 {
     public function testImage()
     {

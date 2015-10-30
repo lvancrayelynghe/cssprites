@@ -3,7 +3,7 @@
 use CSSPrites\Generator\CSSGenerator;
 use CSSPrites\Generator\HTMLGenerator;
 
-class HTMLGeneratorTest extends PHPUnit_Framework_TestCase
+class HTMLGeneratorTest extends AbstractBaseTest
 {
     public function testTag()
     {

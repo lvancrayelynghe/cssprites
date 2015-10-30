@@ -2,34 +2,12 @@
 
 use CSSPrites\ImageProcessor\ImagineImageProcessor;
 
-class ImagineImageProcessorTest extends PHPUnit_Framework_TestCase
+class ImagineImageProcessorTest extends AbstractBaseTest
 {
     public function testSetConfigGd()
     {
         $p      = new ImagineImageProcessor();
         $return = $p->setConfig(['driver' => 'gd']);
-
-        $this->assertInstanceOf('CSSPrites\ImageProcessor\ImagineImageProcessor', $p);
-        $this->assertSame(null, $return);
-    }
-
-    public function testSetConfigImagick()
-    {
-        $this->setExpectedException('Imagine\Exception\RuntimeException', 'Imagick not installed');
-
-        $p      = new ImagineImageProcessor();
-        $return = $p->setConfig(['driver' => 'imagick']);
-
-        $this->assertInstanceOf('CSSPrites\ImageProcessor\ImagineImageProcessor', $p);
-        $this->assertSame(null, $return);
-    }
-
-    public function testSetConfigGmagick()
-    {
-        $this->setExpectedException('Imagine\Exception\RuntimeException', 'Gmagick not installed');
-
-        $p      = new ImagineImageProcessor();
-        $return = $p->setConfig(['driver' => 'gmagick']);
 
         $this->assertInstanceOf('CSSPrites\ImageProcessor\ImagineImageProcessor', $p);
         $this->assertSame(null, $return);
@@ -98,7 +76,7 @@ class ImagineImageProcessorTest extends PHPUnit_Framework_TestCase
         $image->save($pathS);
 
         $this->assertInstanceOf('CSSPrites\ImageProcessor\ImagineImageProcessor', $image);
-        $this->assertFileEquals($pathS, $pathL);
+        $this->assertImageEquals($pathS, $pathL);
         unlink($pathS);
     }
 
@@ -119,7 +97,7 @@ class ImagineImageProcessorTest extends PHPUnit_Framework_TestCase
         $image->save($pathS);
 
         $this->assertInstanceOf('CSSPrites\ImageProcessor\ImagineImageProcessor', $image);
-        $this->assertFileEquals($pathS, $pathL);
+        $this->assertImageEquals($pathS, $pathL);
         unlink($pathS);
     }
 }

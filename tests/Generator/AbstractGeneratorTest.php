@@ -2,7 +2,7 @@
 
 use CSSPrites\Generator\CSSGenerator;
 
-class AbstractGeneratorTest extends PHPUnit_Framework_TestCase
+class AbstractGeneratorTest extends AbstractBaseTest
 {
     public function testOverwrite()
     {
