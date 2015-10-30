@@ -2,8 +2,8 @@
 
 namespace CSSPrites;
 
-use League\Container\ServiceProvider as BaseServiceProvider;
 use CSSPrites\ImageProcessor\ImageProcessorInterface;
+use League\Container\ServiceProvider as BaseServiceProvider;
 
 /**
  * ServiceProvider to register all the needed dependencies.
