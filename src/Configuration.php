@@ -34,7 +34,7 @@ class Configuration
     /**
      * Create a new configuration and set the default values.
      *
-     * @param mixed $value The values
+     * @param mixed $values The values
      */
     public function __construct(array $values = [])
     {
