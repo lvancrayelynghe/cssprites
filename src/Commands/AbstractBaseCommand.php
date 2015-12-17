@@ -10,6 +10,11 @@ abstract class AbstractBaseCommand extends Command implements ContainerAwareInte
 {
     use ContainerAwareTrait;
 
+    /**
+     * @param string $option
+     *
+     * @return string
+     */
     protected function getOptionOrAsk($option, $question, $default = null)
     {
         $value = $this->input->getOption($option);
@@ -22,6 +27,9 @@ abstract class AbstractBaseCommand extends Command implements ContainerAwareInte
         return $value;
     }
 
+    /**
+     * @param string $option
+     */
     protected function getOptionOrSelect($option, $question, array $choices, $default = null)
     {
         $value = $this->input->getOption($option);
@@ -39,6 +47,9 @@ abstract class AbstractBaseCommand extends Command implements ContainerAwareInte
         return $value;
     }
 
+    /**
+     * @param string $option
+     */
     protected function getOptionOrAskConfirmation($option, $question, $default = null)
     {
         $value = $this->input->getOption($option);
@@ -55,6 +66,11 @@ abstract class AbstractBaseCommand extends Command implements ContainerAwareInte
         return $value;
     }
 
+    /**
+     * @param string $option
+     *
+     * @return string
+     */
     protected function getOptionOrAskAndValidate($option, $question, \Closure $callback, $default = null)
     {
         $value = $this->input->getOption($option);

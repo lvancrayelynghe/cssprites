@@ -265,6 +265,9 @@ class GenerateCommand extends AbstractBaseCommand
         return $this->getOptionOrSelect('driver', $option['question'], $option['choices'], $option['default']);
     }
 
+    /**
+     * @return string
+     */
     protected function getOutputFilename($option)
     {
         $filename = $this->getOptionOrAsk('sprite', $option['question'], $option['default']);
