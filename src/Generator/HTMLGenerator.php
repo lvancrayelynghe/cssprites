@@ -34,7 +34,7 @@ class HTMLGenerator extends AbstractGenerator
 
     public function addLine($filename)
     {
-        $this->content .= "\t".'<'.$this->tag.' class="{{selector}} {{prefix}}-'.$filename.'"></'.$this->tag.'>'."\n";
+        $this->content .= "\t".'<'.$this->tag.' class="{{selector}} {{prefix}}-'.$this->slugifier->slugify($filename).'"></'.$this->tag.'>'."\n";
 
         return $this;
     }

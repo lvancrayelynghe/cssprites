@@ -2,14 +2,23 @@
 
 namespace CSSPrites\Generator;
 
+use CSSPrites\Slugifier\SlugifierInterface;
+
 use CSSPrites\AbstractConfigurable;
 
 abstract class AbstractGenerator extends AbstractConfigurable
 {
+    protected $slugifier;
+
     protected $filepath;
     protected $overwrite = false;
 
     protected $content = '';
+
+    public function __construct(SlugifierInterface $slugifier)
+    {
+        $this->slugifier = $slugifier;
+    }
 
     public function overwrite($value)
     {

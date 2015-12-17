@@ -24,7 +24,7 @@ $container = new League\Container\Container;
 $container->addServiceProvider(new CSSPrites\ServiceProvider);
 
 // Registering Console Application
-$app = new Symfony\Component\Console\Application('CSSPrites', '1.0.0');
+$app = new Symfony\Component\Console\Application('CSSPrites', '1.0.1');
 $app->add($container->get('commands.generate'));
 
 // Load default configuration in user directory or in current directory (if file exists)

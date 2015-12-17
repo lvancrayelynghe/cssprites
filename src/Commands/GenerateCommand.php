@@ -106,13 +106,14 @@ class GenerateCommand extends AbstractBaseCommand
 
         $this->populateConfiguration();
 
-        $config = $this->getContainer()->get('configuration');
+        $config    = $this->getContainer()->get('configuration');
+        $slugifier = $this->getContainer()->get('slugifier');
 
-        $css  = new CSSGenerator();
+        $css  = new CSSGenerator($slugifier);
         $css->configure($config->get('css'));
         $css->setImage($config->get('sprite.filename'));
 
-        $html  = new HTMLGenerator();
+        $html  = new HTMLGenerator($slugifier);
         $html->configure($config->get('html'));
         $html->setCSSGenerator($css);
 

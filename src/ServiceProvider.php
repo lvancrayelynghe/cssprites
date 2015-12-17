@@ -2,8 +2,8 @@
 
 namespace CSSPrites;
 
-use League\Container\ServiceProvider as BaseServiceProvider;
 use CSSPrites\ImageProcessor\ImageProcessorInterface;
+use League\Container\ServiceProvider as BaseServiceProvider;
 
 /**
  * ServiceProvider to register all the needed dependencies.
@@ -31,6 +31,9 @@ class ServiceProvider extends BaseServiceProvider
 
         // Registering Configuration as singleton
         $container->singleton('configuration', 'CSSPrites\Configuration');
+
+        // Registering Slugifier as singleton
+        $container->singleton('slugifier', 'CSSPrites\Slugifier\SlugifySlugifier');
 
         // Registering Image Processor
         $container->add('image.processor', 'CSSPrites\ImageProcessor\ImagineImageProcessor');

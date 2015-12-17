@@ -21,14 +21,14 @@ class CSSGenerator extends AbstractGenerator
 
     public function setSelector($value)
     {
-        $this->selector = $value;
+        $this->selector = $this->slugifier->slugify($value);
 
         return $this;
     }
 
     public function setPrefix($value)
     {
-        $this->prefix = $value;
+        $this->prefix = $this->slugifier->slugify($value);
 
         return $this;
     }
@@ -61,7 +61,7 @@ class CSSGenerator extends AbstractGenerator
     {
         $this->content .= str_replace(
             ['{{filename}}', '{{x}}', '{{y}}', '{{w}}', '{{h}}'],
-            [$filename, $x, $y, $w, $h],
+            [$this->slugifier->slugify($filename), $x, $y, $w, $h],
             $this->spriteLine
         );
 

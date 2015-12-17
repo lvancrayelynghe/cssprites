@@ -9,7 +9,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
     {
         $tag = 'span';
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $return        = $htmlgenerator->setTag($tag);
 
         $this->assertInstanceOf('CSSPrites\Generator\HTMLGenerator', $htmlgenerator);
@@ -20,7 +20,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
     {
         $template = '<!DOCTYPE html><html><head><title>SpriteTest</title><link rel="stylesheet" type="text/css" href="{{stylesheet}}"></head><body>{{content}}</body></html>';
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $return        = $htmlgenerator->setTemplate($template);
 
         $this->assertInstanceOf('CSSPrites\Generator\HTMLGenerator', $htmlgenerator);
@@ -29,8 +29,8 @@ class HTMLGeneratorTest extends AbstractBaseTest
 
     public function testCssGenerator()
     {
-        $cssgenerator  = new CSSGenerator();
-        $htmlgenerator = new HTMLGenerator();
+        $cssgenerator  = new CSSGenerator($this->slugifier);
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $return        = $htmlgenerator->setCSSGenerator($cssgenerator);
 
         $this->assertInstanceOf('CSSPrites\Generator\HTMLGenerator', $htmlgenerator);
@@ -41,7 +41,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
     {
         $image = 'test-output';
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $htmlgenerator->setTag('span');
         $return = $htmlgenerator->addLine($image);
 
@@ -53,15 +53,15 @@ class HTMLGeneratorTest extends AbstractBaseTest
     {
         $this->setExpectedException('Exception', 'CSSGenerator not set');
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $htmlgenerator->setTag('span');
         $return = $htmlgenerator->process();
     }
 
     public function testProcessEmpty()
     {
-        $cssgenerator  = new CSSGenerator();
-        $htmlgenerator = new HTMLGenerator();
+        $cssgenerator  = new CSSGenerator($this->slugifier);
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $htmlgenerator->setCSSGenerator($cssgenerator);
         $htmlgenerator->setTag('span');
         $return = $htmlgenerator->process();
@@ -72,7 +72,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
 
     public function testProcessNoLine()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');
@@ -80,7 +80,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
         $cssgenerator->setSpriteLine('.{{selector}}.{{prefix}}-{{filename}} {background-position:{{x}}px {{y}}px; width:{{w}}px; height:{{h}}px; }');
         $cssgenerator->setFilepath('./tests/stubs/test-css-generator-output.css');
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $htmlgenerator->setTemplate('<!DOCTYPE html><html><head><title>SpriteTest</title><link rel="stylesheet" type="text/css" href="{{stylesheet}}"></head><body>{{content}}</body></html>');
         $htmlgenerator->setCSSGenerator($cssgenerator);
         $htmlgenerator->setTag('span');
@@ -97,7 +97,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
 
     public function testProcessOneLine()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');
@@ -106,7 +106,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
         $cssgenerator->setFilepath('./tests/stubs/test-css-generator-output.css');
         $cssgenerator->addLine('test-input', 1, 2, 3, 4);
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $htmlgenerator->setTemplate('<!DOCTYPE html><html><head><title>SpriteTest</title><link rel="stylesheet" type="text/css" href="{{stylesheet}}"></head><body>{{content}}</body></html>');
         $htmlgenerator->setCSSGenerator($cssgenerator);
         $htmlgenerator->setTag('span');
@@ -122,9 +122,36 @@ class HTMLGeneratorTest extends AbstractBaseTest
         $this->assertSame($expected, $return);
     }
 
+    public function testProcessOneLineSpecialChars()
+    {
+        $cssgenerator = new CSSGenerator($this->slugifier);
+        $cssgenerator->setImage('test-output.png');
+        $cssgenerator->setSelector('test Sélectór.');
+        $cssgenerator->setPrefix('test Prèfîx.');
+        $cssgenerator->setMainLine('.{{selector}} {display:inline-block; background-image:url({{image}})}');
+        $cssgenerator->setSpriteLine('.{{selector}}.{{prefix}}-{{filename}} {background-position:{{x}}px {{y}}px; width:{{w}}px; height:{{h}}px; }');
+        $cssgenerator->setFilepath('./tests/stubs/test-css-generator-output.css');
+        $cssgenerator->addLine('test. inputŒЙ', 1, 2, 3, 4);
+
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
+        $htmlgenerator->setTemplate('<!DOCTYPE html><html><head><title>SpriteTest</title><link rel="stylesheet" type="text/css" href="{{stylesheet}}"></head><body>{{content}}</body></html>');
+        $htmlgenerator->setCSSGenerator($cssgenerator);
+        $htmlgenerator->setTag('span');
+        $htmlgenerator->addLine('test. inputŒЙ');
+        $return = $htmlgenerator->process();
+
+        $expected = '<!DOCTYPE html><html><head><title>SpriteTest</title><link rel="stylesheet" type="text/css" href="test-css-generator-output.css"></head><body> <span class="test-Selector test-Prefix-test-inputOEJ"></span></body></html>';
+
+        $return   = preg_replace('!\s+!', ' ', $return);
+        $expected = preg_replace('!\s+!', ' ', $expected);
+
+        $this->assertInstanceOf('CSSPrites\Generator\HTMLGenerator', $htmlgenerator);
+        $this->assertSame($expected, $return);
+    }
+
     public function testProcessMultiLine()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');
@@ -134,7 +161,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
         $cssgenerator->addLine('test-input', 1, 2, 3, 4);
         $cssgenerator->addLine('test-multi-input', -10, -20, -30, -40);
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $htmlgenerator->setTemplate('<!DOCTYPE html><html><head><title>SpriteTest</title><link rel="stylesheet" type="text/css" href="{{stylesheet}}"></head><body>{{content}}</body></html>');
         $htmlgenerator->setCSSGenerator($cssgenerator);
         $htmlgenerator->setTag('span');
@@ -155,7 +182,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
     {
         $this->setExpectedException('Exception', 'CSSGenerator not set');
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');
@@ -165,7 +192,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
         $cssgenerator->addLine('test-input', 1, 2, 3, 4);
         $cssgenerator->addLine('test-multi-input', -10, -20, -30, -40);
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $htmlgenerator->setTemplate('<!DOCTYPE html><html><head><title>SpriteTest</title><link rel="stylesheet" type="text/css" href="{{stylesheet}}"></head><body>{{content}}</body></html>');
         // $htmlgenerator->setCSSGenerator($cssgenerator);
         $htmlgenerator->setTag('span');
@@ -178,7 +205,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
     {
         $path = './tests/stubs/test-html-generator-output.html';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');
@@ -188,7 +215,7 @@ class HTMLGeneratorTest extends AbstractBaseTest
         $cssgenerator->addLine('test-input', 1, 2, 3, 4);
         $cssgenerator->addLine('test-multi-input', -10, -20, -30, -40);
 
-        $htmlgenerator = new HTMLGenerator();
+        $htmlgenerator = new HTMLGenerator($this->slugifier);
         $htmlgenerator->setTemplate('<!DOCTYPE html><html><head><title>SpriteTest</title><link rel="stylesheet" type="text/css" href="{{stylesheet}}"></head><body>{{content}}</body></html>');
         $htmlgenerator->setCSSGenerator($cssgenerator);
         $htmlgenerator->setTag('span');

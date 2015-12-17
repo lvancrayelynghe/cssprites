@@ -1,23 +1,33 @@
 <?php
 
+use CSSPrites\Slugifier\SlugifySlugifier;
+
 abstract class AbstractBaseTest extends PHPUnit_Framework_TestCase
 {
+    protected $slugifier;
+
+    public function setUp()
+    {
+        $this->slugifier = new SlugifySlugifier();
+    }
+
     /**
-     * Asset that 2 images are equals
+     * Asset that 2 images are equals.
      *
      * Requires imagemagick installed
      * sudo apt-get install imagemagick
      *
-     * @param  string $expected Expected filepath
-     * @param  string $actual   Actual filepath
-     * @param  string $message  Error message
+     * @param string $expected Expected filepath
+     * @param string $actual   Actual filepath
+     * @param string $message  Error message
      */
     protected function assertImageEquals($expected, $actual, $message = '')
     {
         exec('which compare', $output);
         if (empty($output)) {
             $this->fail('This test require imagemagick command line tool "compare"');
-            return ;
+
+            return;
         }
 
         if (!file_exists($expected)) {
@@ -43,7 +53,8 @@ abstract class AbstractBaseTest extends PHPUnit_Framework_TestCase
         preg_match('#\((.+)\)#', $diff, $match);
         if (empty($match) || !isset($match[1])) {
             $this->fail($diff);
-            return ;
+
+            return;
         }
 
         $threshold = floatval($match[1]);

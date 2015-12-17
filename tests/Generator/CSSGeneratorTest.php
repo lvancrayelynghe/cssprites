@@ -8,7 +8,7 @@ class CSSGeneratorTest extends AbstractBaseTest
     {
         $image = 'test-output.png';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->setImage($image);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -19,7 +19,7 @@ class CSSGeneratorTest extends AbstractBaseTest
     {
         $selector = 'testSelector';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->setSelector($selector);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -31,7 +31,7 @@ class CSSGeneratorTest extends AbstractBaseTest
     {
         $prefix = 'testPrefix';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->setPrefix($prefix);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -43,7 +43,7 @@ class CSSGeneratorTest extends AbstractBaseTest
     {
         $mainLine = '.{{selector}} {display:inline-block; background-image:url({{image}})}';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->setMainLine($mainLine);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -54,7 +54,7 @@ class CSSGeneratorTest extends AbstractBaseTest
     {
         $spriteLine = '.{{selector}}.{{prefix}}-{{filename}} {background-position:{{x}}px {{y}}px; width:{{w}}px; height:{{h}}px; }';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->setSpriteLine($spriteLine);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -63,7 +63,7 @@ class CSSGeneratorTest extends AbstractBaseTest
 
     public function testAddLine()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->addLine('test-input', 1, 2, 3, 4);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -72,7 +72,7 @@ class CSSGeneratorTest extends AbstractBaseTest
 
     public function testProcessEmpty()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->process();
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -81,7 +81,7 @@ class CSSGeneratorTest extends AbstractBaseTest
 
     public function testProcessNoMainLine()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->addLine('test-input', 1, 2, 3, 4);
         $return = $cssgenerator->process();
@@ -92,7 +92,7 @@ class CSSGeneratorTest extends AbstractBaseTest
 
     public function testProcessNoLine()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');
@@ -106,7 +106,7 @@ class CSSGeneratorTest extends AbstractBaseTest
 
     public function testProcessOneLine()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');
@@ -119,9 +119,24 @@ class CSSGeneratorTest extends AbstractBaseTest
         $this->assertSame('.testSelector {display:inline-block; background-image:url(test-output.png)}.testSelector.testPrefix-test-input {background-position:1px 2px; width:3px; height:4px; }', $return);
     }
 
+    public function testProcessOneLineSpecialChars()
+    {
+        $cssgenerator = new CSSGenerator($this->slugifier);
+        $cssgenerator->setImage('test outpüt.png');
+        $cssgenerator->setSelector('test Sélectór.');
+        $cssgenerator->setPrefix('test Prèfîx.');
+        $cssgenerator->setMainLine('.{{selector}} {display:inline-block; background-image:url({{image}})}');
+        $cssgenerator->setSpriteLine('.{{selector}}.{{prefix}}-{{filename}} {background-position:{{x}}px {{y}}px; width:{{w}}px; height:{{h}}px; }');
+        $cssgenerator->addLine('test. inputŒЙ', 1, 2, 3, 4);
+        $return = $cssgenerator->process();
+
+        $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
+        $this->assertSame('.test-Selector {display:inline-block; background-image:url(test outpüt.png)}.test-Selector.test-Prefix-test-inputOEJ {background-position:1px 2px; width:3px; height:4px; }', $return);
+    }
+
     public function testProcessMultiLine()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');
@@ -139,7 +154,7 @@ class CSSGeneratorTest extends AbstractBaseTest
     {
         $path = './tests/stubs/test-css-generator-output.css';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setImage('test-output.png');
         $cssgenerator->setSelector('testSelector');
         $cssgenerator->setPrefix('testPrefix');

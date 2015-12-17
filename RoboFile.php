@@ -29,6 +29,8 @@ class RoboFile extends \Robo\Tasks
             ->path('vendor')
             ->notPath('vendor/symfony/finder/Tests')
             ->notPath('vendor/symfony/console/Tests')
+            ->notPath('vendor/symfony/jbroadway/urlify/tests')
+            ->notPath('vendor/symfony/jbroadway/urlify/scripts')
             ->in(__DIR__);
         foreach ($finder as $file) {
             $packer->addStripped($file->getRelativePathname(), $file->getRealPath());

@@ -6,7 +6,7 @@ class AbstractGeneratorTest extends AbstractBaseTest
 {
     public function testOverwrite()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->overwrite(true);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -15,7 +15,7 @@ class AbstractGeneratorTest extends AbstractBaseTest
 
     public function testClear()
     {
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->clear();
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -32,7 +32,7 @@ class AbstractGeneratorTest extends AbstractBaseTest
             'filename'  => 'output.ext',
         ];
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->configure($config);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -50,7 +50,7 @@ class AbstractGeneratorTest extends AbstractBaseTest
             'unexistingkey' => 'value',
         ];
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->configure($config);
     }
 
@@ -58,7 +58,7 @@ class AbstractGeneratorTest extends AbstractBaseTest
     {
         $path = '/home/test.css';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $return       = $cssgenerator->setFilepath($path);
 
         $this->assertInstanceOf('CSSPrites\Generator\CSSGenerator', $cssgenerator);
@@ -70,7 +70,7 @@ class AbstractGeneratorTest extends AbstractBaseTest
     {
         $this->setExpectedException('Exception', 'No file path set on the Generator');
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->save();
     }
 
@@ -78,7 +78,7 @@ class AbstractGeneratorTest extends AbstractBaseTest
     {
         $this->setExpectedException('Exception', 'File "./tests/stubs/test-abstract-generator-overwrite.css" already exists and overwriting is disabled');
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setFilepath('./tests/stubs/test-abstract-generator-overwrite.css');
         $cssgenerator->overwrite(false);
         $cssgenerator->save();
@@ -88,7 +88,7 @@ class AbstractGeneratorTest extends AbstractBaseTest
     {
         $path = './tests/stubs/test-abstract-generator-output.css';
 
-        $cssgenerator = new CSSGenerator();
+        $cssgenerator = new CSSGenerator($this->slugifier);
         $cssgenerator->setFilepath($path);
         $cssgenerator->overwrite(true);
         $cssgenerator->save();
