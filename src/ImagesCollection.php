@@ -34,7 +34,8 @@ class ImagesCollection
         if ($order == 'biggest') {
             usort($this->images, function (Image $a, Image $b) {
                 if ($a->getSurface() == $b->getSurface()) {
-                    return 0;
+                    // Add some tricks for https://bugs.php.net/bug.php?id=69158
+                    return strcmp($b->getSimpleName(), $a->getSimpleName());
                 }
 
                 return ($a->getSurface() > $b->getSurface()) ? -1 : 1;
