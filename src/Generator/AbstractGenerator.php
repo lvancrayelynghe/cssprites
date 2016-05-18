@@ -2,9 +2,8 @@
 
 namespace CSSPrites\Generator;
 
-use CSSPrites\Slugifier\SlugifierInterface;
-
 use CSSPrites\AbstractConfigurable;
+use CSSPrites\Slugifier\SlugifierInterface;
 
 abstract class AbstractGenerator extends AbstractConfigurable
 {
