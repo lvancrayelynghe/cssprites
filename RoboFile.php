@@ -44,6 +44,6 @@ class RoboFile extends \Robo\Tasks
         $packer->run();
 
         $this->say('Test build');
-        $this->_exec('php build/phar/cssprites.phar -V');
+        $this->taskExec('php build/phar/cssprites.phar -V')->run();
     }
 }
