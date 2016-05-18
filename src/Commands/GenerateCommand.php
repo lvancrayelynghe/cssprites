@@ -13,9 +13,6 @@ class GenerateCommand extends AbstractBaseCommand
 {
     protected $startTime;
 
-    protected $input;
-    protected $output;
-
     protected function getOptions()
     {
         $options = [

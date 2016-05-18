@@ -10,6 +10,10 @@ abstract class AbstractBaseCommand extends Command implements ContainerAwareInte
 {
     use ContainerAwareTrait;
 
+    protected $input;
+    protected $output;
+    protected $dialog;
+
     /**
      * @param string $option
      *
@@ -61,7 +65,7 @@ abstract class AbstractBaseCommand extends Command implements ContainerAwareInte
             return $value;
         }
 
-        $value = ($value === 'true' or $value === 'yes' or $value === 'y' or $value === '1');
+        $value = ($value === 'true' || $value === 'yes' || $value === 'y' || $value === '1');
 
         return $value;
     }
