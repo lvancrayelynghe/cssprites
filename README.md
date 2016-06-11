@@ -27,7 +27,7 @@ The following versions of PHP are supported:
 
 ### Phar file
 
-Download the [cssprites.phar](http://benoth.github.io/phar/cssprites/cssprites.phar).
+Download the [cssprites.phar](https://github.com/Benoth/cssprites/releases/download/1.0.1/cssprites.phar).
 
 ```bash
 wget http://benoth.github.io/phar/cssprites/cssprites.phar
