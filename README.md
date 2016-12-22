@@ -22,6 +22,7 @@ The following versions of PHP are supported:
 * PHP 5.4
 * PHP 5.5
 * PHP 5.6
+* PHP 7.0
 
 ## Installation
 
@@ -30,13 +31,13 @@ The following versions of PHP are supported:
 Download the [cssprites.phar](https://github.com/Benoth/cssprites/releases/download/1.0.1/cssprites.phar).
 
 ```bash
-wget http://benoth.github.io/phar/cssprites/cssprites.phar
+wget https://github.com/Benoth/cssprites/releases/download/1.0.1/cssprites.phar
 ```
 
 To install globally put `cssprites.phar` in `/usr/bin`.
 
 ```bash
-sudo chmod +x cssprites.phar && mv cssprites.phar /usr/bin/cssprites
+chmod +x cssprites.phar && sudo mv cssprites.phar /usr/local/bin/cssprites
 ```
 
 ### Composer global
